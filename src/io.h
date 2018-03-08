@@ -19,7 +19,6 @@ void cur_pos_adjust(int n = 0, bool wraparound = true);
 bool entry_nr_exists(unsigned int nr);
 string current_entry(void);
 void add_to_default_list(string path, string description = "", bool ask_for_desc = false);
-void add_to_list_file(string path);
 void delete_from_default_list(int pos);
 void edit_list_file(void);
 

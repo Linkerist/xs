@@ -324,39 +324,6 @@ add_to_default_list(string path, string desc, bool ask_for_desc)
 }
 
 void
-add_to_list_file(string path)
-{
- // get rid of leading = if there
- if (path.at(0) == '=')
-  path = path.substr(1);
-
- // the syntax for passing descriptions from the command line is:
- // --add=:desc:/absolute/path
- string desc;
- if (path.at(0) == ':') {
-  int colon2_at;
-  colon2_at = path.find(":", 1);
-  if (colon2_at > DESCRIPTION_MAXLENGTH + 1) {
-   fprintf(stderr, "description too long! max %d chars.\n", DESCRIPTION_MAXLENGTH);
-   exit(-4);
-  }
-
-  desc = path.substr(1, colon2_at - 1);
-  path = path.substr(colon2_at + 1);
- }
-
- // FIXME: check for existance here?
- if (path.at(0) != '/') {
-  fprintf(stderr,"this is not an absolute path:\n%s\n.", path.c_str());
-  exit(-2);
- }
-
- list_from_file();
- add_to_default_list(path, desc, false);
- list_to_file();
-}
-
-void
 delete_from_default_list(int pos)
 {
  int count = 0;

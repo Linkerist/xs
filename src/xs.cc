@@ -27,16 +27,6 @@ using namespace std;
 #include "io.h"
 #include "misc.h"
 
-//#define VERSION "0.0.1"
-
-/* GLOBALS */
-// FIXME: this file has too many globals. Especially the
-// offset/position handling is UGLY!
-//
-
-// #define false 0
-// #define true 1
-
 #define HISTORY_FILE ".xs_history_path"
 
 #define BUFFER_SIZE (16 * 1024)
@@ -300,17 +290,6 @@ max_yoffset(void)
  return ret < 0 ? 0 : ret;
 }
 
-typedef std::uint64_t hash_t;
-
-constexpr hash_t prime = 0x100000001B3ull;
-constexpr hash_t basis = 0xCBF29CE484222325ull;
-
-constexpr hash_t
-hash_compile_time(char const * str, hash_t last_value = basis)
-{
- return *str ? hash_compile_time(str + 1, (*str ^ last_value) * prime) : last_value;
-}
-
 int
 main(int argc, char ** argv)
 {
@@ -342,87 +321,35 @@ main(int argc, char ** argv)
    case 0:
     optname = string(xs_long_opts[opt_idx].name);
 
-    //switch (hash_(optname.c_str())) {
-    switch (
-     [&] (const char * __str) {
-      hash_t ret{basis};
-      while(*__str) { ret ^= *__str; ret *= prime; ++__str; }
-      return ret;
-     } (optname.c_str())
-    ) {
-     case hash_compile_time("help"):
-      version();
-      usage(EXIT_SUCCESS);
-      exit(0);
-     case hash_compile_time("version"):
-      version();
-      exit(0);
-     case hash_compile_time("add"): {
-      argument = string(optarg);
-      add_to_list_file(argument);
-      exit(0);
-     }
-     case hash_compile_time("browse"):
-      mode = BROWSE;
-      break;
-     case hash_compile_time("nowrap"):
-      opt_no_wrap = true;
-      break;
-     case hash_compile_time("noresolve"):
-      opt_no_resolve = true;
-      break;
-     case hash_compile_time("output"):
-      opt_resultfile = string(optarg);
-      break;
-     default:
-      ;
-    }
+    if (optname == "help") {
+     version();
+     usage(EXIT_SUCCESS);
+     exit(0);
+    } else if (optname == "version") {
+     version();
+     exit(0);
+    } else if(optname == "browse")
+     mode = BROWSE;
+    else if (optname == "nowrap")
+     opt_no_wrap = true;
+    else if (optname == "noresolve")
+     opt_no_resolve = true;
 
-    // if (optname == "help") {
-    //  version();
-    //  usage(EXIT_SUCCESS);
-    //  exit(0);
-    // }
-
-    // if (optname == "version") {
-    //  version();
-    //  exit(0);
-    // }
-
-    // if (optname == "add") {
-    //  argument = string(optarg);
-    //  add_to_list_file(argument);
-    //  exit(0);
-    // }
-
-    // if(optname == "browse")
-    //  mode = BROWSE;
-
-    // if (optname == "nowrap")
-    //  opt_no_wrap = true;
-
-    // if (optname == "noresolve")
-    //  opt_no_resolve = true;
-
-   case 'a':
-    argument = string(optarg);
-    add_to_list_file(argument);
-    exit(0);
     break;
+
    case 'b':
     mode = BROWSE;
     break;
    case 'r':
     opt_no_resolve = true;
     break;
-
    case 'h':
     version();
     usage(EXIT_SUCCESS);
     break;
    case 'V':
     version();
-    break;
+    exit(0);
    default:
     usage(EXIT_FAILURE);
   }

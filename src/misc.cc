@@ -28,22 +28,6 @@ usage(int status)
   emit_try_help();
  else {
   fprintf(stderr, "xs version 0.0.1 command:\n");
-  fprintf(stderr, "<xs -s dir [position]>  add a directory to $__xs_history_dir.\n");
-  fprintf(stderr, "if content = ./, then add current directory to $__xs_history_dir.\n");
-  fprintf(stderr, "if position(1-20) is not, default value equal 1.\n");
-  fprintf(stderr, "\n");
-  fprintf(stderr, "<xs -d [position]> then delete a directory from $__xs_history_dir.\n");
-  fprintf(stderr, "if position is not, default value equal last.\n");
-  fprintf(stderr, "\n");
-  fprintf(stderr, "<xs -l [position]> then list directory from $__xs_history_dir.\n");
-  fprintf(stderr, "if position is not, default value equal 1,");
-  fprintf(stderr, "else list all directory, then choice one position's content and enter it.");
-  fprintf(stderr, "\n");
-  fprintf(stderr, "<xs -e [position]> then enter a directory from $__xs_history_dir.\n");
-  fprintf(stderr, "if position is not, default value equal 1.\n");
-  fprintf(stderr, "\n");
-  fprintf(stderr, "<xs -c> then clear $__xs_history_dir.\n");
-  fprintf(stderr, "\n");
 
   // xs imported.
   fprintf(stderr, "expanding the shell built-in cd with bookmarks and browser\n\n");
@@ -69,11 +53,8 @@ usage(int status)
   fprintf(stderr, "                              and exit\n");
   fprintf(stderr, "\n");
   fprintf(stderr, "Other Options\n");
-  fprintf(stderr, "  -f, --file=PATH    take PATH as bookmark file\n"); 
-  fprintf(stderr, "  -u, --user=USER    read (default) bookmark file of USER\n"); 
   fprintf(stderr, "  -o,- -output=FILE  use FILE as result file\n"); 
   fprintf(stderr, "  -r, --nowrap       change the scrolling behaviour for long lists\n");
-  fprintf(stderr, "  -c, --cwd          make current directory the current entry if on the list\n");
   fprintf(stderr, "  -b, --browse       start in BROWSE mode with the current dir\n"); 
   fprintf(stderr, "  -h, --help         print this help message and exit\n"); 
   fprintf(stderr, "  -v, --version      print version info and exit\n");

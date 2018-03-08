@@ -104,16 +104,13 @@ user_interaction(int c)
    break;      
 
   // ==== Navigate The List
-  case 'j':       // vi
-  case CTRL('n'): // emacs
 #if TERMINFO
   case KEY_DOWN:
 #endif
    // navigate list++
    cur_pos_adjust(+1);
    break;
-  case 'k':       // vi
-  case CTRL('p'): // emacs
+
 #if TERMINFO
   case KEY_UP:
 #endif
@@ -131,8 +128,6 @@ user_interaction(int c)
    yoffset = 0;
    break;
 
-  case '$':       // vi
-  case CTRL('e'): // emacs
 # if TERMINFO
   case KEY_END:
 #endif
@@ -146,31 +141,23 @@ user_interaction(int c)
    break;
 
   //==== move the shortcut digits ('shorties')
-  // FIXME case ??:  //vi
   // FIXME maybe change the scrolling behaviour to not take the window but the whole
   // list? That means recentering when shorties leave the screen (adjust yoffset and
   // CurrPosition) 
-  case CTRL('v'): // emacs
 #if TERMINFO      
   case KEY_NPAGE:
 #endif
    for(int i = 0; i < 10; i++)
 	cur_pos_adjust(+1, false);
-
    break;
 
-  // fixme: vi?
-  //case CTRL(''): // FIXME: META(x)??
 #if TERMINFO
   case KEY_PPAGE:
 #endif
    for(int i = 0; i < 10; i++)
 	cur_pos_adjust(-1, false);
-
    break;
 
-  case 'h':       // vi
-  case CTRL('b'): // emacs
 #if TERMINFO
   case KEY_LEFT:
 #endif
@@ -184,8 +171,6 @@ user_interaction(int c)
    list_from_dir("..");
    break;
 
-  case 'l':       // vi
-  case CTRL('f'): // emacs
 #if TERMINFO
   case KEY_RIGHT:
 #endif
@@ -198,13 +183,11 @@ user_interaction(int c)
 
    list_from_dir(curen.c_str());
    break;
-  case 'H':
+
   case '?':
    helpscreen();
    break;
 
-  case 'd':
-  case CTRL('d'): // emacs
 #if TERMINFO
   case KEY_BACKSPACE:
 #endif
@@ -477,7 +460,7 @@ helpscreen(void)
 
  int l = 0;
  string help_lines[] = {
-  "cdargs (c) 2001-2003 S. Kamphausen <http://www.skamphausen.de>",
+  "xs - Linkerist <Linkerist@163.com>",
   "<UP>/<DOWN>  move selection up/down and scroll",
   "             please see manpage for alternative bindings!",
   "<ENTER>      select current entry",
