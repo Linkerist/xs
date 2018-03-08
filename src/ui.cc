@@ -84,13 +84,13 @@ user_interaction(int c)
   case '9':
    num =  c - '0' + shorties_offset;
    if(mode == LIST) {
-    if (entry_nr_exists(num)) {
-     CurrPosition = num + yoffset;
-     return opt_no_resolve;
-    }
+	if (entry_nr_exists(num)) {
+	 CurrPosition = num + yoffset;
+	 return opt_no_resolve;
+	}
    } else {
-    CurrPosition = num + yoffset;
-    return true;
+	CurrPosition = num + yoffset;
+	return true;
    }
    break;
 
@@ -138,9 +138,9 @@ user_interaction(int c)
 #endif
    // go to end
    if (mode == BROWSE)
-    CurrPosition = cur_list.size() - 1;
+	CurrPosition = cur_list.size() - 1;
    else if (mode == LIST)
-    CurrPosition = default_list.size() - 1;
+	CurrPosition = default_list.size() - 1;
 
    yoffset = max_yoffset();
    break;
@@ -155,7 +155,7 @@ user_interaction(int c)
   case KEY_NPAGE:
 #endif
    for(int i = 0; i < 10; i++)
-    cur_pos_adjust(+1, false);
+	cur_pos_adjust(+1, false);
 
    break;
 
@@ -165,7 +165,7 @@ user_interaction(int c)
   case KEY_PPAGE:
 #endif
    for(int i = 0; i < 10; i++)
-    cur_pos_adjust(-1, false);
+	cur_pos_adjust(-1, false);
 
    break;
 
@@ -176,10 +176,10 @@ user_interaction(int c)
 #endif
    // up dir
    if (mode == BROWSE)
-    //             LastPositions[get_current_dir_name()] = CurrPosition;
-    LastPositions[get_cwd_as_charp()] = CurrPosition;
+	//             LastPositions[get_current_dir_name()] = CurrPosition;
+	LastPositions[get_cwd_as_charp()] = CurrPosition;
    else if (mode == LIST)
-    mode = BROWSE;
+	mode = BROWSE;
 
    list_from_dir("..");
    break;
@@ -192,9 +192,9 @@ user_interaction(int c)
    // descend dir at cur pos
    curen = current_entry();
    if (mode == BROWSE)
-    LastPositions[get_cwd_as_charp()] = CurrPosition;
+	LastPositions[get_cwd_as_charp()] = CurrPosition;
    else
-    mode = BROWSE;
+	mode = BROWSE;
 
    list_from_dir(curen.c_str());
    break;
@@ -210,9 +210,9 @@ user_interaction(int c)
 #endif
    // delete dir acp
    if (mode == LIST && !NeedleGiven)
-    delete_from_default_list(CurrPosition);
+	delete_from_default_list(CurrPosition);
    else
-    beep();
+	beep();
 
    break;
 
@@ -222,40 +222,40 @@ user_interaction(int c)
   case 'a':
    // add dir acp (if in browse mode)
    if (!NeedleGiven) {
-    if (mode == BROWSE)
-     add_to_default_list(current_entry());
-    else
-     add_to_default_list(get_cwd_as_string());
+	if (mode == BROWSE)
+	 add_to_default_list(current_entry());
+	else
+	 add_to_default_list(get_cwd_as_string());
    } else
-    beep();
+	beep();
 
    break;
 
   case 'A':
    if (!NeedleGiven) {
-    // add dir acp (if in browse mode) (ask for desc)
-    if (mode == BROWSE)
-     add_to_default_list(current_entry(),"",true);
-    else
-     add_to_default_list(get_cwd_as_string(),"",true);
+	// add dir acp (if in browse mode) (ask for desc)
+	if (mode == BROWSE)
+	 add_to_default_list(current_entry(),"",true);
+	else
+	 add_to_default_list(get_cwd_as_string(),"",true);
    } else
-    beep();
+	beep();
 
    break;
   case 'c':
    if (!NeedleGiven)
-    // add the current dir in every mode
-    add_to_default_list(get_cwd_as_string());
+	// add the current dir in every mode
+	add_to_default_list(get_cwd_as_string());
    else
-    beep();
+	beep();
 
    break;
   case 'C':
    if (!NeedleGiven)
-    // add the current dir in every mode (ask for desc)
-    add_to_default_list(get_cwd_as_string(), "", true);
+	// add the current dir in every mode (ask for desc)
+	add_to_default_list(get_cwd_as_string(), "", true);
    else
-    beep();
+	beep();
 
    break;
 
@@ -263,9 +263,9 @@ user_interaction(int c)
   case 'v':
   case 'e':
    if (!NeedleGiven)
-    edit_list_file();
+	edit_list_file();
    else
-    beep();
+	beep();
 
    break;
 
@@ -394,11 +394,11 @@ display_list(void)
  if(mode == LIST) {
   for (listit li = list.begin() + yoffset; li != list.end(); ++li) {
    if (strlen(li->first.c_str()) > actual_maxlength)
-    actual_maxlength = strlen(li->first.c_str());
+	actual_maxlength = strlen(li->first.c_str());
 
    // Don't let actual_maxlength > DESCRIPTION_MAXLENGTH
    if ( actual_maxlength > DESCRIPTION_MAXLENGTH)
-    actual_maxlength = DESCRIPTION_MAXLENGTH;
+	actual_maxlength = DESCRIPTION_MAXLENGTH;
   }
  } else
   actual_maxlength = DESCRIPTION_BROWSELENGTH;
@@ -460,9 +460,9 @@ helpscreen(void)
    pager = "/usr/bin/pager";
   else {
    if (stat("/usr/bin/less", &buf) == 0)
-    pager = "/usr/bin/less";
+	pager = "/usr/bin/less";
    else
-    pager = "more";
+	pager = "more";
   }
  }
 
@@ -537,15 +537,15 @@ toggle_mode(void)
   // list was empty at start
   if (listfile_empty) {
    if (!default_list.empty()) {
-    // but isn't now
-    list_to_file();
-    list_from_file();
-    mode = LIST;
+	// but isn't now
+	list_to_file();
+	list_from_file();
+	mode = LIST;
    } else {
-    // ok, we have nothing to show here
-    message("No List entry. Staying in BROWSE mode");
-    mode = BROWSE;
-    list_from_dir(".");
+	// ok, we have nothing to show here
+	message("No List entry. Staying in BROWSE mode");
+	mode = BROWSE;
+	list_from_dir(".");
    }
   } else {
    // the "normal" case;

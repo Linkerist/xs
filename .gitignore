@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+xs
+
+__install

@@ -44,8 +44,8 @@ using namespace std;
 
 vector<pair<string, string> > cur_list, default_list;
 
-const char * DefaultListfile = ".cdargs";
-const char * DefaultResultfile = "~/.cdargsresult";
+const char * DefaultListfile = ".xsargs";
+const char * DefaultResultfile = "~/.xsresult";
 
 const char * Needle = NULL;
 bool NeedleGiven = false;
@@ -59,11 +59,8 @@ bool show_hidden_files = false;
 bool opt_no_wrap = false;
 bool opt_no_resolve = false;
 bool listfile_empty = false;
-bool opt_cwd = false;
 
 string opt_resultfile = "";
-string opt_listfile = "";
-string opt_user = "";
 
 typedef enum exit_values {
  total_success = 0,
@@ -76,25 +73,7 @@ typedef enum exit_values {
 
 //typedef _Bool bool;
 
-struct xs_option {
- bool save_path;
- bool delete_path;
- bool list_path;
- bool enter_path;
- bool clear_path;
-};
-
 string program_name = "xs";
-
-static void
-xs_option_init(struct xs_option * x)
-{
- x->save_path = false;
- x->delete_path = false;
- x->list_path = false;
- x->enter_path = false;
- x->clear_path = false;
-}
 
 string
 canonify_filename(string filename)
@@ -118,12 +97,6 @@ get_listfile(void)
  string user = "~";
  string file = DefaultListfile;
  string effective_listfile = "";
-
- if (opt_user.size() > 0)
-  user = opt_user;
-
- if (opt_listfile.size() > 0)
-  return canonify_filename(opt_listfile);
 
  if (user[0] == '~')
   effective_listfile = user + "/" + file;
@@ -332,27 +305,6 @@ typedef std::uint64_t hash_t;
 constexpr hash_t prime = 0x100000001B3ull;
 constexpr hash_t basis = 0xCBF29CE484222325ull;
 
-/*
-#define hash_(__str)\
- { hash_t ret{basis};\
- while (*__str) { ret ^= *__str; ret *= prime; ++__str; }\
- ret; }\
- */
-
-// hash_t
-// hash_(char const * str)
-// {
-//  hash_t ret{basis};
-
-//  while(*str){
-//   ret ^= *str;
-//   ret *= prime;
-//   str++;
-//  }
-
-//  return ret;
-// }
-
 constexpr hash_t
 hash_compile_time(char const * str, hash_t last_value = basis)
 {
@@ -362,9 +314,6 @@ hash_compile_time(char const * str, hash_t last_value = basis)
 int
 main(int argc, char ** argv)
 {
- //exit_values_ty exit_status;
-
- struct xs_option x;
  int c;
  int opt_idx = 0;
 
@@ -373,29 +322,16 @@ main(int argc, char ** argv)
  string optname;
  string argument;
 
- xs_option_init(&x);
-
- const static string xs_short_opts = "a:f:u:brco:sdlechV";
- // const static string xs_short_opts = "a:f:u:brco:vh";
- // const static string xs_short_opts = "sdlechV";
+ const static string xs_short_opts = "a:f:u:brco:hV";
 
  static struct option xs_long_opts[] = {
-  {"save",      no_argument,       NULL, 's'},
-  {"delete",    no_argument, NULL, 'd'},
-  {"list",      no_argument, NULL, 'l'},
-  {"enter",     no_argument, NULL, 'e'},
-  {"clear",     no_argument, NULL, 'c'},
- 
   {"help",      no_argument, NULL, 'h'},
   {"version",   no_argument, NULL, 'V'},
  
   {"add",       required_argument, 0, 0},
-  {"file",      required_argument, 0, 0},
-  {"user",      required_argument, 0, 0},
   {"browse",    no_argument, 0, 0},
   {"nowrap",    no_argument, 0, 0},
   {"noresolve", no_argument, 0, 0},
-  {"cwd",       no_argument, 0, 0},
   {"output",    required_argument, 0, 0},
  
   {NULL, 0, NULL, 0}
@@ -426,12 +362,6 @@ main(int argc, char ** argv)
       add_to_list_file(argument);
       exit(0);
      }
-     case hash_compile_time("file"):
-      opt_listfile = string(optarg);
-      break;
-     case hash_compile_time("user"):
-      opt_user = string(optarg);
-      break;
      case hash_compile_time("browse"):
       mode = BROWSE;
       break;
@@ -440,9 +370,6 @@ main(int argc, char ** argv)
       break;
      case hash_compile_time("noresolve"):
       opt_no_resolve = true;
-      break;
-     case hash_compile_time("cwd"):
-      opt_cwd = true;
       break;
      case hash_compile_time("output"):
       opt_resultfile = string(optarg);
@@ -468,12 +395,6 @@ main(int argc, char ** argv)
     //  exit(0);
     // }
 
-    // if (optname == "file")
-    //  opt_listfile = string(optarg);
-
-    // if (optname == "user")
-    //  opt_user = string(optarg);
-
     // if(optname == "browse")
     //  mode = BROWSE;
 
@@ -483,23 +404,10 @@ main(int argc, char ** argv)
     // if (optname == "noresolve")
     //  opt_no_resolve = true;
 
-    // if (optname == "cwd")
-    //  opt_cwd = true;
-
-    // if (optname == "output")
-    //  opt_resultfile = string(optarg);
-    // break;
-
    case 'a':
     argument = string(optarg);
     add_to_list_file(argument);
     exit(0);
-    break;
-   case 'f':
-    opt_listfile = string(optarg);
-    break;
-   case 'u':
-    opt_user = string(optarg);
     break;
    case 'b':
     mode = BROWSE;
@@ -507,31 +415,7 @@ main(int argc, char ** argv)
    case 'r':
     opt_no_resolve = true;
     break;
-   // case 'c':
-   //  opt_cwd = true;
-   //  break;
-   case 'o':
-    opt_resultfile = string(optarg);
-    break;
 
-   case 's':
-    x.save_path = true;
-    arg = argv[optind];
-    break;
-   case 'd':
-    x.delete_path = true;
-    arg = argv[optind];
-    break;
-   case 'l':
-    x.list_path = true;
-    break;
-   case 'e':
-    x.enter_path = true;
-    arg = argv[optind];
-    break;
-   case 'c':
-    x.clear_path = true;
-    break;
    case 'h':
     version();
     usage(EXIT_SUCCESS);
@@ -590,11 +474,4 @@ main(int argc, char ** argv)
 
  finish(current_entry(), true);
  exit(1);
-
- //if (x.enter_path)
- // arg = index;
-
- //xs(&x, arg);
-
- //return exit_status;
 }

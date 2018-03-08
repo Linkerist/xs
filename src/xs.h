@@ -87,11 +87,8 @@ extern bool show_hidden_files;
 extern bool opt_no_wrap;
 extern bool opt_no_resolve;
 extern bool listfile_empty;
-extern bool opt_cwd;
 
 extern string opt_resultfile;
-extern string opt_listfile;
-extern string opt_user;
 
 extern string program_name;
 

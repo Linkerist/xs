@@ -47,7 +47,7 @@ list_from_file(void)
   desc = line.substr(0, line.find('/') - 1);
   path = line.substr(line.find('/'));
 
-  if (opt_cwd && cwd == path)
+  if (cwd == path)
    CurrPosition = linecount;
 
   // counting the lines: if only one, no resolving should take place
@@ -182,10 +182,6 @@ list_to_file(void)
   unlink(__listfile.c_str());
   return;
  }
-
- // never touch the listfile of another user
- if (opt_user.size() > 0)
-  return;
 
  struct stat buf;
  if (stat(__listfile.c_str(), &buf) == 0) {
@@ -712,9 +708,6 @@ edit_list_file(void)
 //{
 // exit_values_ty exit_status = total_success;
 //
-// if (x->save_path) {
-//  save_path(arg);
-// }
 //
 // if (x->delete_path) {
 //  delete_path(arg);
