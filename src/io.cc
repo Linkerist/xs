@@ -669,28 +669,3 @@ edit_list_file(void)
 //
 // return exit_status;
 //}
-//
-//exit_values_ty
-//xs(const struct xs_option * x, const char * arg)
-//{
-// exit_values_ty exit_status = total_success;
-//
-//
-// if (x->delete_path) {
-//  delete_path(arg);
-// }
-//
-// if (x->list_path) {
-//  list_path();
-// }
-//
-// if (x->enter_path) {
-//  enter_path(arg);
-// }
-//
-// if (x->clear_path) {
-//  clear_path();
-// }
-//
-// return exit_status;
-//}

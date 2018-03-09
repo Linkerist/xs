@@ -48,8 +48,6 @@ struct ltstr {
   }
 };
 
-//string default_list_file(void);
-string get_resultfile(void);
 char* get_cwd_as_charp(void);
 string get_cwd_as_string(void);
 string get_listfile(void);

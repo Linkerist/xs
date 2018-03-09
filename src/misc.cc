@@ -17,7 +17,6 @@ version(void)
 static inline void
 emit_try_help(void)
 {
- //fprintf (stderr, "Try '%s --help' for more information.\n", program_name);
  cerr << "Try '" << program_name << " --help' for more information." << endl;
 }
 
@@ -30,14 +29,13 @@ usage(int status)
   fprintf(stderr, "xs version 0.0.1 command:\n");
 
   // xs imported.
-  fprintf(stderr, "expanding the shell built-in cd with bookmarks and browser\n\n");
-  fprintf(stderr, "  Usually you don't call this program directly.\n");
-  fprintf(stderr, "  Copy it somewhere into your path and create\n");
-  fprintf(stderr, "  a shell alias (which takes arguments) as described\n");
-  fprintf(stderr, "  in the file INSTALL which came with this program.\n");
+  fprintf(stderr, "Just xs, forget cd - expanding the shell built-in cd\n\n");
+  fprintf(stderr, "  Usually you don't call this program directly\n");
+  fprintf(stderr, "  due to we cannot realize the same effect as the shell built-in command.\n");
+  fprintf(stderr, "  invoke a shell alias we have already provided.\n");
   fprintf(stderr, "\n  For general usage press 'H' while running.\n\n\n");
   fprintf(stderr, "Usage:\n");
-  fprintf(stderr, "  xs              select from bookmarks\n");
+  fprintf(stderr, "  xs              \n");
   fprintf(stderr, "  xs [--noresolve] <Needle>\n");
   fprintf(stderr, "                      Needle is a filter for the list: each\n");
   fprintf(stderr, "                      entry is compared to the Needle and if it\n");

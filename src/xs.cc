@@ -61,8 +61,6 @@ typedef enum exit_values {
  system_error = 5
 } exit_values_ty;
 
-//typedef _Bool bool;
-
 string program_name = "xs";
 
 string
@@ -172,15 +170,6 @@ valid(string path, pathtype mode)
  return false;
 }
 
-string
-get_resultfile(void)
-{
- if (opt_resultfile.size() >0)
-  return opt_resultfile;
-
- return string(DefaultResultfile);
-}
-
 void
 finish(string result, bool retval)
 {
@@ -199,8 +188,8 @@ finish(string result, bool retval)
   fprintf(stderr, "This is not a valid directory:\n%s\n", result.c_str());
   exit(-3);
  }
- //    string resfile = canonify_filename(Resultfile);
- string resfile = canonify_filename(get_resultfile());
+
+ string resfile = canonify_filename(string(DefaultResultfile));
  ofstream out(resfile.c_str());
  if (out) {
   out << result << endl;
@@ -307,7 +296,6 @@ main(int argc, char ** argv)
   {"help",      no_argument, NULL, 'h'},
   {"version",   no_argument, NULL, 'V'},
  
-  {"add",       required_argument, 0, 0},
   {"browse",    no_argument, 0, 0},
   {"nowrap",    no_argument, 0, 0},
   {"noresolve", no_argument, 0, 0},
