@@ -30,7 +30,7 @@ function _xs_get_dir()
   # okay, we need xs to resolve this one.
   # note: intentionally retain any extra path to add back to selection.
   dir=
-  if xs --noresolve "${1/\/*/}"; then
+  if xscore --noresolve "${1/\/*/}"; then
    dir=`cat "$HOME/.xsresult"`
    rm -f "$HOME/.xsresult";
   fi
@@ -86,15 +86,12 @@ function _xs_exec()
 # @param  string alias
 #
 # @access public
-function cdb () 
+function xs()
 { 
  local dir
 
  _xs_get_dir "$1" && cd "$dir" && echo `pwd`;
 }
-
-alias cb='cdb'
-alias cv='cdb'
 
 # Bash programming completion for xs. Sets the $COMPREPLY list for complete
 # @param  string substring of alias
@@ -138,7 +135,7 @@ function _xs_aliases ()
 _xs_complete() {
  local nospace=
  [ "${BASH_VERSINFO[0]}" -ge 3 -o \( "${BASH_VERSINFO[0]}" = 2 -a \( "${BASH_VERSINFO[1]}" = 05a -o "${BASH_VERSINFO[1]}" = 05b \) \) ] && nospace='-o nospace'
- complete $nospace -S / -X '*/' -F _xs_aliases cv cb cdb
+ complete $nospace -S / -X '*/' -F _xs_aliases xs
 }
 
 _xs_complete

@@ -87,7 +87,6 @@ void
 list_from_dir(const char * name)
 {
  string previous_dir = "";
- //if(name == "..") {
  if (!strcmp(name, ".."))
   previous_dir = get_cwd_as_string();
 
