@@ -8,6 +8,8 @@ Just use xs and forgot cd~
 
 # Usage
 
+![usage](https://raw.githubusercontent.com/wiki/Linkerist/xs/usage.gif)
+
 do:
 
 ```bash
@@ -18,11 +20,16 @@ then browse the filesystem with simple arrow keystrokes, press enter to confirm.
 
 # Installation
 
+![installation](https://raw.githubusercontent.com/wiki/Linkerist/xs/installation.gif)
+
 Installation is easy, do:
 
 ```bash
+$ git clone https://github.com/Linkerist/xs.git
+$ cd xs
 $ make
 $ sudo make install
+$ make shell
 ```
 
 For more information try:
@@ -31,7 +38,7 @@ For more information try:
 $ man xs
 ```
 
-or press 'H' or '?' while running xs.  
+or press '?' while running xs.  
 
 # Bugs?
 
@@ -45,6 +52,6 @@ I hope you find xs useful and will enjoy using it.
 
 # Authors
 
-Linkerist <Linkerist@163.com>  
-  
+Linkerist  
+<Linkerist@163.com>  
 https://www.jianshu.com/u/6e736fe94d97
